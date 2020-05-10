@@ -3,7 +3,7 @@
 	SaferLua [safer_lua]
 	====================
 
-	Copyright (C) 2018 Joachim Stolberg
+	Copyright (C) 2018-2020 Joachim Stolberg
 
 	LGPLv2.1+
 	See LICENSE.txt for more information
@@ -20,3 +20,4 @@ safer_lua.version = 1.0
 dofile(minetest.get_modpath("safer_lua") .. "/data_struct.lua")
 dofile(minetest.get_modpath("safer_lua") .. "/scanner.lua")
 dofile(minetest.get_modpath("safer_lua") .. "/environ.lua")
+dofile(minetest.get_modpath("safer_lua") .. "/demo.lua")
