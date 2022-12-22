@@ -159,7 +159,10 @@ function safer_lua.init(pos, init, loop, environ, err_clbk)
 			debug.sethook(timeout, "c")
 			code()
 			debug.sethook()
-		end, debug.traceback)
+		end, function(...)
+			debug.sethook()
+			return debug.traceback(...)
+		end)
 		if not res then
 			err_clbk(pos, format_error(err, "init"))
 		else
@@ -193,7 +196,10 @@ function safer_lua.run_loop(pos, elapsed, code, err_clbk)
 		debug.sethook(timeout, "c")
 		code()
 		debug.sethook()
-	end, debug.traceback)
+	end, function(...)
+		debug.sethook()
+		return debug.traceback(...)
+	end)
 	if calc_used_mem_size(env) > safer_lua.MaxTableSize then 
 		err_clbk(pos, "Error: Data memory limit exceeded")
 		return false
