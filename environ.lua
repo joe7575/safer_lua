@@ -148,7 +148,18 @@ function safer_lua.init(pos, init, loop, environ, err_clbk)
 		env.S = {}
 		env.S = map(env.S, environ)
 		setfenv(code, env)
-		local res, err = xpcall(code, debug.traceback)
+		local time = minetest.get_us_time()
+		local timeout = function ()
+			if minetest.get_us_time() - time > 50000 then
+				debug.sethook()
+				error("timeout")
+			end
+		end
+		local res, err = xpcall(function()
+			debug.sethook(timeout, "c")
+			code()
+			debug.sethook()
+		end, debug.traceback)
 		if not res then
 			err_clbk(pos, format_error(err, "init"))
 		else
@@ -171,7 +182,18 @@ function safer_lua.run_loop(pos, elapsed, code, err_clbk)
 		env.event = false
 		env.ticks = env.ticks + 1
 	end
-	local res, err = xpcall(code, debug.traceback)
+	local time = minetest.get_us_time()
+	local timeout = function ()
+		if minetest.get_us_time() - time > 50000 then
+			debug.sethook()
+			error("timeout")
+		end
+	end
+	local res, err = xpcall(function()
+		debug.sethook(timeout, "c")
+		code()
+		debug.sethook()
+	end, debug.traceback)
 	if calc_used_mem_size(env) > safer_lua.MaxTableSize then 
 		err_clbk(pos, "Error: Data memory limit exceeded")
 		return false
