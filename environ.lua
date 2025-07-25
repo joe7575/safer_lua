@@ -12,7 +12,7 @@
 
 ]]--
 
-safer_lua.MaxCodeSize = 5000    -- size if source code in bytes
+safer_lua.MaxCodeSize = 5000    -- size of source code in bytes
 safer_lua.MaxTableSize = 1000   -- sum over all table sizes
 safer_lua.MaxExeTime = 20000    -- max. execution time in us
 
